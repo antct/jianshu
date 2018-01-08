@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="简书">
+
+        <Preference
+            android:key="total"
+            android:summary=""
+            android:title="总图书数" />
+
+        <Preference
+            android:key="totalFavorite"
+            android:summary=""
+            android:title="总收藏数" />
+
+        <Preference
+            android:key="first"
+            android:summary=""
+            android:title="第一本添加的书" />
+
+        <Preference
+            android:key="firstFavorite"
+            android:summary=""
+            android:title="第一本收藏的书" />
+
+        <Preference
+            android:key="last"
+            android:summary=""
+            android:title="最后一本添加的书" />
+
+        <Preference
+            android:key="lastFavorite"
+            android:summary=""
+            android:title="最后一本收藏的书" />
+
+        <Preference
+            android:key="most"
+            android:summary=""
+            android:title="你有最多回忆的书" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

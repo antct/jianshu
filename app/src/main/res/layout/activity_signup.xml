@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qian_bai">
+
+    <FrameLayout
+        android:id="@+id/left_circle"
+        android:layout_width="200dp"
+        android:layout_height="307dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="-100dp"
+        android:background="@drawable/ic_face"/>
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/left_circle"
+        android:layout_toRightOf="@+id/left_circle"
+        android:paddingRight="@dimen/margin_32"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/app_name"
+            style="@style/SignupTextView"
+            android:text="@string/app_name_broken"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            />
+
+        <TextView
+            android:id="@+id/app_slogan"
+            style="@style/SignupTextView"
+            android:layout_below="@+id/app_name"
+            android:gravity="end"
+            android:text="@string/logo_slogan"
+            android:textSize="14sp"
+            />
+
+        <EditText
+            android:id="@+id/account"
+            style="@style/SignupEditText"
+            android:layout_below="@+id/app_slogan"
+            android:layout_marginTop="@dimen/margin_64"
+            android:hint="@string/account"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            style="@style/SignupEditText"
+            android:layout_below="@+id/account"
+            android:gravity="end"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            />
+
+        <TextView
+            android:id="@+id/login"
+            style="@style/SignupTextView"
+            android:layout_below="@+id/password"
+            android:text="@string/login"
+            />
+
+        <TextView
+            android:id="@+id/signup"
+            style="@style/SignupTextView"
+            android:layout_below="@+id/login"
+            android:text="@string/signup"
+            />
+
+        <TextView
+            android:id="@+id/skip"
+            style="@style/SignupTextView"
+            android:layout_below="@+id/signup"
+            android:text="跳过（如未搭建后台）"
+            android:visibility="visible"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

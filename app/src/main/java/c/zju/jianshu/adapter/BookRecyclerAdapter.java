@@ -1,0 +1,140 @@
+package c.zju.jianshu.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import c.zju.jianshu.activity.BookInfoActivity;
+import c.zju.jianshu.activity.BookInfoAddActivity;
+import c.zju.jianshu.model.bean.Book;
+
+/**
+ * Created by HaPBoy on 5/21/16.
+ */
+public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerViewHolder> {
+
+    List<Book> list;
+    LayoutInflater inflater;
+    Context context;
+
+    public BookRecyclerAdapter(Context context) {
+        this.context = context;
+        list = new ArrayList<>();
+        inflater = LayoutInflater.from(context);
+    }
+
+    public void add(Book bookData) {
+        list.add(bookData);
+        notifyItemInserted(list.size() - 1);
+    }
+
+    public void setData(List<Book> booksData) {
+        list.clear();
+        list.addAll(booksData);
+    }
+
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public BookRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new BookRecyclerViewHolder(inflater.inflate(c.zju.jianshu.R.layout.activity_search_book_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(BookRecyclerViewHolder holder, final int position) {
+        // 设置图片
+        Glide.with(holder.bookImage.getContext())
+                .load(list.get(position).getImage())
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(new IconicsDrawable(holder.bookImage.getContext()).icon(GoogleMaterial.Icon.gmd_book).colorRes(c.zju.jianshu.R.color.boo_item_icon).paddingDp(10))
+                .into(holder.bookImage);
+
+        // 设置其他
+        holder.bookName.setText(list.get(position).getTitle());
+        holder.bookPoints.setText(list.get(position).getAverage());
+        holder.bookAuthor.setText(list.get(position).getAuthor());
+        holder.bookPublisher.setText(list.get(position).getPublisher());
+        holder.bookPubdate.setText(list.get(position).getPubdate());
+        holder.bookPrice.setText(list.get(position).getPrice());
+
+        // 设置翻译者
+        if (list.get(position).getTranslator().isEmpty()) {
+            holder.bookDivider.setVisibility(View.GONE);
+            holder.bookTranslator.setText("");
+        } else {
+            holder.bookTranslator.setText(list.get(position).getTranslator() + " 译");
+        }
+
+        // 设置CardView点击事件
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Book> books = DataSupport.where("isbn13 = ?", list.get(position).getIsbn13()).find(Book.class);
+                // 如果图书已添加
+                if (books.size() > 0) {
+                    Intent intent = new Intent(context, BookInfoActivity.class);
+                    intent.putExtra("id", books.get(0).getId());
+                    context.startActivity(intent);
+                } else {
+                    // 图书未添加，跳转到添加页面
+                    Intent intent = new Intent(context, BookInfoAddActivity.class);
+                    intent.putExtra("ISBN", list.get(position).getIsbn13());
+                    context.startActivity(intent);
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+}
+
+class BookRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    ImageView bookImage;
+    TextView bookName;
+    TextView bookPoints;
+    TextView bookAuthor;
+    TextView bookTranslator;
+    TextView bookPublisher;
+    TextView bookPubdate;
+    TextView bookPrice;
+    TextView bookDivider;
+    CardView cardView;
+
+    public BookRecyclerViewHolder(View itemView) {
+        super(itemView);
+        bookImage = (ImageView) itemView.findViewById(c.zju.jianshu.R.id.book_item_image);
+        bookName = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_title);
+        bookPoints = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_points);
+        bookAuthor = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_author);
+        bookTranslator = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_translator);
+        bookPublisher = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_publisher);
+        bookPubdate = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_pubdate);
+        bookPrice = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_price);
+        bookDivider = (TextView) itemView.findViewById(c.zju.jianshu.R.id.book_item_divider);
+        cardView = (CardView) itemView.findViewById(c.zju.jianshu.R.id.book_item);
+    }
+}

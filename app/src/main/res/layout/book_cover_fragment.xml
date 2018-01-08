@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:background="#c9c9c9">
+
+    <!-- 封面背景 -->
+    <ImageView
+        android:id="@+id/book_cover_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- 图书封面 -->
+    <ImageView
+        android:id="@+id/book_cover"
+        android:layout_width="160dp"
+        android:layout_height="220dp"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:scaleType="centerCrop" />
+
+    <!-- 评分 -->
+    <LinearLayout
+        android:id="@+id/book_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/book_rate_background"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="评分: "
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/book_rate_socre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="0.0"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <RatingBar
+            android:id="@+id/book_rate_star"
+            style="@style/RatingBar_Yellow_Middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="0.0"
+            android:stepSize="0.1" />
+
+    </LinearLayout>
+
+</RelativeLayout>

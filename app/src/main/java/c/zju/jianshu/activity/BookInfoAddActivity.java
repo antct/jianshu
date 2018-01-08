@@ -1,0 +1,228 @@
+package c.zju.jianshu.activity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import c.zju.jianshu.fragment.BookCoverFragment;
+import c.zju.jianshu.fragment.BookInfoItemFragment;
+import c.zju.jianshu.fragment.BookIntroFragment;
+import c.zju.jianshu.model.bean.Book;
+import c.zju.jianshu.model.data.DataManager;
+import c.zju.jianshu.view.ViewPagerIndicator;
+import es.dmoral.toasty.Toasty;
+
+/**
+ * Created by HaPBoy on 5/22/16.
+ */
+public class BookInfoAddActivity extends BaseActivity implements View.OnClickListener {
+
+    // Context
+    private Context context;
+
+    // ViewPager
+    private ViewPager viewPager;
+    private FragmentPagerAdapter pagerAdapter;
+
+    // ViewPagerIndicator
+    private ViewPagerIndicator viewPagerIndicator;
+    private List<String> titles = Arrays.asList("基本信息", "图书简介");
+
+    // Fragment
+    private List<Fragment> fragments = new ArrayList<>();
+
+    // Book
+    private Book book;
+
+    // 保存按钮
+    private Button btnAdd;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(c.zju.jianshu.R.layout.activity_book_info_add);
+
+        // Context
+        context = this;
+
+        // 返回按钮
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        // Activity标题
+        setTitle("");
+
+        // ViewPager
+        viewPager = (ViewPager) findViewById(c.zju.jianshu.R.id.view_pager);
+
+        // ViewPagerIndicator
+        viewPagerIndicator = (ViewPagerIndicator) findViewById(c.zju.jianshu.R.id.indicator);
+        viewPagerIndicator.setTabItemTitles(titles);
+        viewPagerIndicator.setVisibleTabCount(2);
+
+        // 保存按钮
+        btnAdd = (Button) findViewById(c.zju.jianshu.R.id.btn_add);
+
+        // 传入的ISBN
+        String isbn = getIntent().getStringExtra("ISBN");
+
+        // 显示加载动画View
+        startLoadingAnim();
+
+        // API获取图书数据
+        DataManager.getBookInfoFromISBN(isbn, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                findViewById(c.zju.jianshu.R.id.loadView).setVisibility(View.GONE);
+                book = DataManager.doubanBook2Book(DataManager.jsonObject2DoubanBook(response));
+
+                // 设置保存按钮监听器
+                btnAdd.setOnClickListener(BookInfoAddActivity.this);
+
+                // 基本信息 Fragment
+                fragments.add(BookInfoItemFragment.newInstance(book));
+
+                // 图书简介 Fragment
+                fragments.add(BookIntroFragment.newInstance(book));
+
+                // PagerAdapter
+                pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+                    @Override
+                    public int getCount() {
+                        return fragments.size();
+                    }
+
+                    @Override
+                    public Fragment getItem(int position) {
+                        return fragments.get(position);
+                    }
+                };
+
+                // 设置数据适配器
+                viewPager.setAdapter(pagerAdapter);
+                viewPagerIndicator.setViewPager(viewPager, 0);
+
+                // Activity标题
+                setTitle(book.getTitle());
+
+                // 图书封面
+                Fragment bookCoverragment = BookCoverFragment.newInstance(book);
+                getSupportFragmentManager().beginTransaction().add(c.zju.jianshu.R.id.fragment_book_cover, bookCoverragment).commit();
+
+                stopLoadingAnim();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toasty.error(getApplicationContext(), "未能找到该书籍的信息或网络连接出错", Toast.LENGTH_SHORT, true).show();
+
+                stopLoadingAnim();
+
+                // 显示错误信息View
+                findViewById(c.zju.jianshu.R.id.errorView).setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    // 保存图书
+    public void saveBook(Book book) {
+        Boolean isAdded = false;
+
+        // 遍历当前数据库中所有的书籍，用来判断是否已经添加过这本书
+        List<Book> books = DataSupport.findAll(Book.class);
+        for (int i = 0; i < books.size(); i++) {
+            Book book_db = books.get(i);
+            if ((book_db.getAuthor() + book_db.getTitle()).equals(book.getAuthor() + book.getTitle())) {
+                isAdded = true;
+                break;
+            } else {
+                isAdded = false;
+            }
+        }
+
+        if (isAdded) {
+            Toasty.info(getApplicationContext(), "你已添加过该书籍", Toast.LENGTH_SHORT, true).show();
+        } else {
+            if (book.save()) {
+                Toasty.info(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT, true).show();
+                Intent intent = new Intent(this, BookInfoActivity.class);
+                intent.putExtra("id", book.getId());
+                startActivity(intent);
+            } else {
+                Toasty.info(getApplicationContext(), "保存失败", Toast.LENGTH_SHORT, true).show();
+            }
+        }
+        try {
+            Net.upLoad(Data.getUsername(), Data.getPassword(), "book/upload");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            case c.zju.jianshu.R.id.action_browser:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(book.getAlt()));
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startLoadingAnim() {
+        findViewById(c.zju.jianshu.R.id.loadView).setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoadingAnim() {
+        findViewById(c.zju.jianshu.R.id.loadView).setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(c.zju.jianshu.R.menu.book_info_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.findItem(c.zju.jianshu.R.id.action_favorite);
+        menuItem.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onClick(View v) {
+        saveBook(book);
+    }
+}

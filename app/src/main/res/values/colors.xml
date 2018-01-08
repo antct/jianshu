@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#A51C2D</color>
+    <color name="colorPrimaryDark">#A51C2D</color>
+    <color name="colorAccent">#A51C2D</color>
+    <color name="colorPrimaryBg">#ffffff</color>
+    <color name="bright_red">#A51C2D</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="normal_bg">#F0F0F4</color>
+    <!--<color name="normal_bg">#f3e5b1</color>-->
+    <!--#D9DAD7-->
+    <color name="black">#000000</color>
+    <color name="black_4a">#4a4a4a</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="red_1">#FE2829</color>
+    <color name="red_2">#C83C23</color>
+    <color name="red_3">#FF4E20</color>
+    <color name="red_4">#F25500</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_bg">#062925</color>
+    <color name="light_text_gb">#B0A48A</color>
+    <color name="link_text">#044A42</color>
+    <color name="light_divider">#B8E1DD</color>
+
+    <color name="text_grey">#3E4A61</color>
+
+    <!--background-->
+    <color name="zhu_qing">#789262</color>
+    <color name="chi_jin">#F2BE45</color>
+    <color name="qian_bai">#F0F0F4</color>
+    <color name="ying_bai">#E3F9FD</color>
+    <color name="su">#E0F0E9</color>
+    <color name="yue_bai">#D6ECF0</color>
+    <color name="shui_hong">#F3D3E7</color>
+    <color name="cang_huang">#519A73</color>
+    <color name="ding_xiang_se">#CCA4E3</color>
+    <color name="ai_lv">#A4E2C6</color>
+    <color name="yu_se">#7BCFA6</color>
+    <color name="huang_lu">#E29C45</color>
+    <color name="jiang_huang">#F0C239</color>
+
+    <!-- 内容字体 -->
+    <color name="colorPrimaryContentFont">#444444</color>
+    <color name="colorPrimaryContentBg">#f8f8f8</color>
+
+    <!-- Tab标签 -->
+    <color name="tab_color_notchoose">#000000</color>
+    <color name="tab_color_chooose">#ffffff</color>
+    <color name="tab_color_line">#ffffff</color>
+
+    <!-- 悬浮按钮 -->
+    <color name="fab_menu_colorNormal">@color/colorPrimary</color>
+    <color name="fab_menu_colorPressed">@color/colorPrimaryDark</color>
+    <color name="fab_menu_colorRipple">#B3E5FC</color>
+
+    <!-- Grid -->
+    <color name="grid_empty_icon">#bcbcbc</color>
+    <color name="grid_empty_text">#bcbcbc</color>
+    <color name="grid_rate_text">@color/colorPrimaryContentFont</color>
+
+    <!-- 图书封面 -->
+    <color name="boo_cover_icon">#bcbcbc</color>
+
+    <!-- 图书搜索 -->
+    <color name="search_edittext_bgcolor">@color/colorPrimaryDark</color>
+
+    <!-- 搜素结果 -->
+    <color name="book_item_points">#fbbc05</color>
+    <color name="book_item_price_bg">#fbbc05</color>
+    <color name="book_item_textpricecolor">#ffffff</color>
+    <color name="book_item_texttitlecolor">#111111</color>
+    <color name="book_item_textcontentcolor">#444444</color>
+    <color name="boo_item_icon">#bcbcbc</color>
+
+    <!-- 图书添加页 -->
+    <color name="btn_color">@color/colorPrimary</color>
+
+
+    <!-- 图书详情 -->
+    <color name="book_info_bg">@color/colorPrimaryBg</color>
+
+    <!-- 图书基本信息 Fragment -->
+    <color name="book_info_item_tag_font">#ffffff</color>
+    <color name="book_info_item_tag_bgcolor">@color/colorPrimary</color>
+    <color name="book_info_item_font">@color/colorPrimaryContentFont</color>
+
+    <!-- 图书简介信息 Fragment -->
+    <color name="book_intro_tag_font">@color/colorPrimary</color>
+    <color name="book_intro_font">@color/colorPrimaryContentFont</color>
+
+    <!-- 图书笔记信息 Fragment -->
+    <color name="book_note_tag_font">#9B9B9B</color>
+
+    <!-- Google Colors-->
+    <color name="google_blue">#4285f4</color>
+    <color name="google_red">#ea4335</color>
+    <color name="google_yellow">#fbbc05</color>
+    <color name="google_green">#34a853</color>
+</resources>

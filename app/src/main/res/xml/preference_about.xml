@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="简书">
+
+        <Preference
+            android:key="introduction"
+            android:summary="极简风格的图书记录APP"
+            android:title="应用介绍" />
+
+        <Preference
+            android:key="currentVersion"
+            android:summary="1.0.0"
+            android:title="当前版本" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="关于作者">
+        <Preference
+            android:key="author"
+            android:summary="96486d9b"
+            android:title="作者" />
+
+        <Preference
+            android:key="email"
+            android:summary="964b6d9b@gmail.com"
+            android:title="邮箱" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="版权">
+
+        <Preference
+            android:summary="豆瓣开发者API, bookshelf开源项目，以及wingjy提供的UI设计灵感"
+            android:title="感谢" />
+    </PreferenceCategory>
+</PreferenceScreen>
