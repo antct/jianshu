@@ -236,7 +236,7 @@ public class MainActivity extends BaseActivity {
 //                .add("json", getBooksInfo())
 //                .build();
 //        Request request = new Request.Builder()
-//                .url("http://120.77.80.167:8000/" + url)
+//                .url("http://" + url)
 //                .post(formBody)
 //                .build();
 //        Call call = mOkHttpClient.newCall(request);
